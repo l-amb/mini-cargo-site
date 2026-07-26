@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16263f"/>
+      <stop offset="1" stop-color="#2a456b"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2f4a"/>
+      <stop offset="1" stop-color="#0f1b2d"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <rect y="300" width="800" height="150" fill="url(#water)"/>
+  <!-- dock -->
+  <rect x="100" y="290" width="200" height="20" fill="#5a4a2a"/>
+  <!-- cargo containers -->
+  <rect x="120" y="240" width="60" height="50" fill="#ef476f" rx="3"/>
+  <rect x="190" y="240" width="60" height="50" fill="#ffd166" rx="3"/>
+  <rect x="155" y="180" width="60" height="60" fill="#06d6a0" rx="3"/>
+  <!-- ship -->
+  <path d="M 380 280 L 540 280 L 560 320 L 360 320 Z" fill="#5da6ff"/>
+  <rect x="440" y="220" width="40" height="60" fill="#16263f"/>
+  <rect x="445" y="230" width="30" height="20" fill="#ffd166"/>
+  <!-- waves -->
+  <g stroke="#4a90e2" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M 0 330 Q 100 320 200 330 T 400 330 T 600 330 T 800 330"/>
+    <path d="M 0 360 Q 100 350 200 360 T 400 360 T 600 360 T 800 360"/>
+  </g>
+  <text x="400" y="60" font-family="Arial" font-size="28" fill="white" text-anchor="middle" font-weight="bold">Cargo Loading Dock</text>
+  <text x="400" y="90" font-family="Arial" font-size="16" fill="#9fb3cc" text-anchor="middle">Screenshot 1 · Mini Cargo</text>
+</svg>
