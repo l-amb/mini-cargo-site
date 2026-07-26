@@ -10,7 +10,8 @@
    - Mobile nav hamburger
    - FAQ accordion (accessibility-correct)
    - Swiper galleries + Chart.js initialization
-   - Collaborate form ( submits via GitHub Issues API )
+   - Collaborate form ( URL redirect to GitHub Issues new-issue page so the
+     visitor's own GitHub session files the request — no bot token exposed )
 =================================================================*/
 
 (function () {

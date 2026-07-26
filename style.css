@@ -1,8 +1,11 @@
 /* ============================================================
    Mini Cargo — main stylesheet
-   Complete rewrite: defines :root tokens, theme, layout, nav,
-   hero, sections, forms, FAQ, responsive. Mirrors a real design
-   system instead of the previous partial file.
+   Complete design system: defines :root tokens, light/dark
+   themes, layout, nav, hero, sections, forms, FAQ, responsive,
+   and reduced-motion preferences.
+   Replaces the previous partial file that referenced undefined
+   CSS custom properties (e.g. var(--accent)) without ever
+   declaring them — which left the live page essentially unstyled.
 ============================================================ */
 
 :root {
