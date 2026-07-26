@@ -4,23 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Cargo – Home</title>
-  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you manage cargo ships and compete on leaderboards. Join the community, watch videos, see live stats, and explore screenshots." />
-  <!-- Google Font -->
+  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you manage cargo ships and compete on leaderboards. Join the community, watch the trailer, see live stats and explore screenshots." />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <!-- AOS for scroll animations -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <!-- Swiper for carousel -->
   <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
-  <!-- AOS & Swiper & Chart.js scripts (deferred) -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
   <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 <body>
-  <!-- Canvas particle background -->
   <canvas id="bg-canvas"></canvas>
+
   <nav>
     <div class="logo">Mini Cargo</div>
     <ul class="nav-links">
@@ -28,8 +23,9 @@
       <li><a href="#play">Play</a></li>
       <li><a href="changelog.html">Changelog</a></li>
       <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#video">Video</a></li>
+      <li><a href="#video">Trailer</a></li>
       <li><a href="#testimonials">Community</a></li>
+      <li><a href="#discord">Discord</a></li>
     </ul>
   </nav>
 
@@ -37,36 +33,57 @@
     <h1 id="typewriter"></h1>
     <p class="tagline">A modern, playful Roblox experience.</p>
     <a class="play-button" href="https://www.roblox.com/games/132204795118843/Mini-Cargo" target="_blank">Play Now</a>
-    <a class="discord-button" href="https://discord.com/invite/placeholder" target="_blank">Join Discord</a>
+    <a class="discord-button" href="https://discord.com/invite/mini-cargo" target="_blank">Join Discord</a>
   </section>
 
-  <!-- Latest update preview card -->
+  <!-- Latest update preview -->
   <section id="latest" class="content-section" data-aos="fade-up">
     <h2>🚀 Latest Update</h2>
     <div class="latest-card">
       <h3>Version 0.2 – 2026‑07‑12</h3>
-      <p>Added leaderboards, daily challenges, sleek light‑blue theme, scroll‑into‑view animations, and a new <strong>Collaborate</strong> section.</p>
+      <p>We added leaderboards, daily challenges, a sleek light‑blue theme, scroll‑into‑view animations, a particle background, and the new <strong>Community</strong> section.</p>
       <button class="details-btn">Show Details</button>
       <div class="details hidden">
         <ul>
-          <li>Animated navigation underline on hover.</li>
-          <li>Hero background gradient animation.</li>
+          <li>Animated navigation underline.</li>
+          <li>Hero gradient animation.</li>
           <li>Particle canvas reacting to mouse.</li>
-          <li>Interactive stats chart (players over time).</li>
-          <li>Screenshot carousel powered by Swiper.</li>
+          <li>Interactive stats bar chart.</li>
+          <li>Screenshot gallery with Swiper.</li>
           <li>Embedded YouTube trailer.</li>
+          <li>Discord invite button.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Stats with Chart.js -->
+  <!-- Stats – simple bar chart -->
   <section id="stats" class="content-section" data-aos="fade-right">
     <h2>Live Stats</h2>
-    <canvas id="statsChart" width="400" height="200"></canvas>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">1,234</span>
+        <span class="stat-label">Players worldwide</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">12 min</span>
+        <span class="stat-label">Avg. session length</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">▲ 12%</span>
+        <span class="stat-label">Growth this month</span>
+      </div>
+    </div>
+    <div class="bar-chart">
+      <div class="bar" style="height: 40%;" title="Jan"></div>
+      <div class="bar" style="height: 55%;" title="Feb"></div>
+      <div class="bar" style="height: 70%;" title="Mar"></div>
+      <div class="bar" style="height: 85%;" title="Apr"></div>
+      <div class="bar" style="height: 95%;" title="May"></div>
+    </div>
   </section>
 
-  <!-- Gallery carousel -->
+  <!-- Gallery -->
   <section id="gallery" class="content-section" data-aos="zoom-in">
     <h2>Screenshots</h2>
     <div class="swiper mySwiper">
@@ -75,21 +92,20 @@
         <div class="swiper-slide"><img src="https://source.unsplash.com/801x451/?cargo,game" alt="Screenshot 2" /></div>
         <div class="swiper-slide"><img src="https://source.unsplash.com/802x452/?gaming" alt="Screenshot 3" /></div>
       </div>
-      <!-- Navigation arrows -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
     </div>
   </section>
 
-  <!-- Video embed -->
+  <!-- Video trailer -->
   <section id="video" class="content-section" data-aos="fade-left">
     <h2>Official Trailer</h2>
     <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Mini Cargo Trailer" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/5qap5aO4i9U" title="Mini Cargo Trailer" allowfullscreen></iframe>
     </div>
   </section>
 
-  <!-- Testimonials / community carousel -->
+  <!-- Community testimonials -->
   <section id="testimonials" class="content-section" data-aos="fade-up">
     <h2>What Players Say</h2>
     <div class="swiper testimonialSwiper">
@@ -102,10 +118,12 @@
     </div>
   </section>
 
-  <!-- Discord widget -->
-  <section class="content-section" data-aos="fade-up">
-    <h2>Join Our Discord</h2>
-    <iframe src="https://discord.com/widget?id=123456789012345678&theme=light" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+  <!-- Discord invite widget (simple button) -->
+  <section id="discord" class="content-section" data-aos="fade-up">
+    <h2>Join Our Discord Community</h2>
+    <a class="discord-widget" href="https://discord.com/invite/mini-cargo" target="_blank">
+      <img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="Discord" style="width:200px;" />
+    </a>
   </section>
 
   <footer>
