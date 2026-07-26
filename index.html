@@ -9,7 +9,7 @@
   <meta property="og:description" content="Play Mini Cargo on Roblox – leaderboards, daily challenges, and community collaboration." />
   <meta property="og:url" content="https://www.roblox.com/games/132204795118843/Mini-Cargo" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://l-amb.github.io/mini-cargo-site/assets/preview.png" />
+  <meta property="og:image" content="https://l-amb.github.io/mini-cargo-site/assets/preview.svg" />
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
@@ -32,8 +32,9 @@
 
   <section id="stats" class="content-section">
     <h2>Stats</h2>
-    <p>Players worldwide: <strong><!-- TODO: insert live player count --></strong></p>
-    <p>Average session length: <strong><!-- TODO: insert average session length --></strong></p>
+    <p>Players worldwide: <strong><span id="player-count">Loading...</span></strong></p>
+    <p>Average session length: <strong><span id="session-length">Loading...</span></strong></p>
+    <button id="refresh-stats" style="margin-top:0.5rem;">Refresh Stats</button>
   </section>
 
   <section id="play" class="content-section">
@@ -51,7 +52,7 @@
 
   <section id="collaborate" class="content-section">
     <h2>Collaborate</h2>
-    <p>We welcome community contributions! Join our Discord or submit pull requests.</p>
+    <p>Want to collaborate on Mini Cargo? Join our <a href="https://discord.gg/example" target="_blank">Discord</a> or contact us to discuss game improvements.</p>
   </section>
 
   <footer>
