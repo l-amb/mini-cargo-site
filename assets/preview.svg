@@ -1,4 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#4a90e2"/>
-  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="80" fill="white">Mini Cargo</text>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1c2f4a"/>
+      <stop offset="1" stop-color="#4a90e2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <g font-family="Arial,Helvetica,sans-serif" fill="white" text-anchor="middle">
+    <text x="600" y="280" font-size="64" font-weight="bold">🚢 Mini Cargo</text>
+    <text x="600" y="360" font-size="32" fill="#9fb3cc">Play. Compete. Collaborate.</text>
+    <text x="600" y="430" font-size="22" fill="#5da6ff">roblox.com · Universe 10400840414</text>
+  </g>
 </svg>
