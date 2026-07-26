@@ -1,61 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Cargo – Changelog</title>
-  <meta name="description" content="Changelog for Mini Cargo Roblox game." />
+  <meta name="description" content="Release notes and changelog for the Mini Cargo Roblox game website." />
+  <meta name="theme-color" content="#4a90e2" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
+  <script>
+    (function(){var t = localStorage.getItem('mc-theme'); if (t) document.documentElement.setAttribute('data-theme', t);})();
+  </script>
 </head>
 <body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <nav>
-    <div class="logo">🚢 Mini Cargo</div>
-    <ul class="nav-links">
+    <a href="index.html" class="logo" aria-label="Mini Cargo home">
+      <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/96/96/Image/Png/noFilter" alt="Mini Cargo icon" class="logo-icon" />
+      <span>Mini Cargo</span>
+    </a>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&equiv;</button>
+    <ul class="nav-links" id="nav-menu">
       <li><a href="index.html#stats">Stats</a></li>
       <li><a href="index.html#play">Play</a></li>
       <li><a href="changelog.html">Changelog</a></li>
       <li><a href="index.html#gallery">Gallery</a></li>
       <li><a href="index.html#video">Trailer</a></li>
-      <li><a href="index.html#collaborate">Collaborate</a></li>
       <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="collaborate.html">Collaborate</a></li>
       <li><a href="index.html#discord">Discord</a></li>
+      <li><button id="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle dark mode">&#9681;</button></li>
     </ul>
   </nav>
 
-  <section class="hero">
-    <h1>Changelog</h1>
-    <p class="tagline">What’s new in Mini Cargo.</p>
-  </section>
+  <header class="hero">
+    <div class="hero-copy">
+      <h1>Changelog</h1>
+      <p class="tagline">What&rsquo;s new on the Mini Cargo site.</p>
+    </div>
+  </header>
 
-  <section class="content-section visible">
-    <h2>Version 0.3 – 2026‑07‑26</h2>
-    <ul>
-      <li>Fixed the broken stylesheet — base theme now actually renders.</li>
-      <li>Live Roblox stats with auto-refresh + Chart.js 12‑month growth chart.</li>
-      <li>Added <strong>Collaborate</strong> section: request to partner with the game.</li>
-      <li>Added FAQ accordion.</li>
-      <li>Removed broken Unsplash screenshot URLs (replaced with inline SVG screenshots).</li>
-      <li>Disabled particle canvas for users with <code>prefers-reduced-motion</code>.</li>
-      <li>Footer now notes the site isn't affiliated with Roblox Corporation.</li>
-    </ul>
+  <main>
+    <section class="content-section changelog">
+      <article class="latest-card">
+        <h2>Version 0.3 — 2026&#8209;07&#8209;26</h2>
+        <ul>
+          <li>Real game icon in hero & nav (replaces the broken placeholder logo).</li>
+          <li>Live player count badge with one-click refresh from the Roblox API.</li>
+          <li>New <a href="collaborate.html">Collaborate</a> page — collab requests filed as real GitHub Issues for the game itself (not the repo).</li>
+          <li>FAQ accordion so newcomers can self-serve common questions.</li>
+          <li>Dark mode toggle, persisted between visits.</li>
+          <li>Mobile nav hamburger for small screens.</li>
+          <li>Working Chart.js graph (was missing, so the stats chart never rendered).</li>
+          <li>Removed broken Unsplash placeholders and the 404&rsquo;ing Discord asset image.</li>
+          <li>Open Graph / social preview metadata so links look right when shared.</li>
+        </ul>
+      </article>
 
-    <h2>Version 0.2 – 2026‑07‑12</h2>
-    <ul>
-      <li>Added leaderboards and daily challenges.</li>
-      <li>Improved UI with light‑blue theme and animations.</li>
-      <li>New "Community" section.</li>
-    </ul>
+      <article class="latest-card" style="margin-top: 1rem;">
+        <h2>Version 0.2 — 2026&#8209;07&#8209;12</h2>
+        <ul>
+          <li>Added leaderboards and daily challenges (in-game).</li>
+          <li>Improved UI with light-blue theme and scroll animations.</li>
+          <li>Added a Collaborate section (placeholder Discord link).</li>
+        </ul>
+      </article>
 
-    <h2>Version 0.1 – 2026‑07‑20</h2>
-    <ul>
-      <li>Initial launch of Mini Cargo site.</li>
-      <li>Basic stats and play button.</li>
-    </ul>
-  </section>
+      <article class="latest-card" style="margin-top: 1rem;">
+        <h2>Version 0.1 — 2026&#8209;07&#8209;20</h2>
+        <ul>
+          <li>Initial launch of the Mini Cargo site.</li>
+          <li>Basic stats and a Play button.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; 2026 Mini Cargo — All rights reserved. Not affiliated with Roblox Corporation.</p>
+    <p>&copy; 2026 Mini Cargo. Fan site. Roblox is a trademark of Roblox Corporation.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="collaborate.html">Collaborate</a>
+      <button id="back-to-top" title="Back to top" type="button">&#8593;</button>
+    </div>
   </footer>
 </body>
 </html>

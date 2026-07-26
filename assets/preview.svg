@@ -1,14 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1c2f4a"/>
-      <stop offset="1" stop-color="#4a90e2"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a90e2"/>
+      <stop offset="1" stop-color="#1a2734"/>
     </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-opacity="0.4"/></filter>
   </defs>
-  <rect width="1200" height="630" fill="url(#g)"/>
-  <g font-family="Arial,Helvetica,sans-serif" fill="white" text-anchor="middle">
-    <text x="600" y="280" font-size="64" font-weight="bold">🚢 Mini Cargo</text>
-    <text x="600" y="360" font-size="32" fill="#9fb3cc">Play. Compete. Collaborate.</text>
-    <text x="600" y="430" font-size="22" fill="#5da6ff">roblox.com · Universe 10400840414</text>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Stylised cargo crate -->
+  <g transform="translate(870 200)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="220" rx="22" fill="#f5b840" stroke="#fde6c0" stroke-width="6"/>
+    <rect x="20" y="20" width="180" height="180" rx="12" fill="none" stroke="#b58420" stroke-width="4"/>
+    <line x1="110" y1="20" x2="110" y2="200" stroke="#b58420" stroke-width="4"/>
+    <line x1="20" y1="110" x2="200" y2="110" stroke="#b58420" stroke-width="4"/>
+    <text x="110" y="118" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#7a5418">CARGO</text>
   </g>
+  <!-- Title -->
+  <text x="120" y="300" font-family="Poppins, Arial, sans-serif" font-size="92" font-weight="800" fill="white">Mini Cargo</text>
+  <text x="120" y="370" font-family="Poppins, Arial, sans-serif" font-size="34" fill="rgba(255,255,255,0.85)">Load it. Haul it. Climb the ranks.</text>
+  <text x="120" y="500" font-family="Poppins, Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)">A playful Roblox logistics game</text>
 </svg>

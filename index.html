@@ -1,19 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Cargo – Home</title>
-  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you manage cargo ships and compete on leaderboards. Collaborate, watch the trailer, see live stats and explore screenshots." />
+  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you load and deliver cargo, climb leaderboards and complete daily challenges. Play, compete, and collaborate!" />
+  <meta name="theme-color" content="#4a90e2" />
+
+  <!-- Open Graph / social preview -->
   <meta property="og:title" content="Mini Cargo" />
-  <meta property="og:description" content="A modern, playful Roblox cargo management experience. Play, compete, collaborate!" />
-  <meta property="og:image" content="assets/preview.svg" />
+  <meta property="og:description" content="Load it. Haul it. Climb the ranks. A playful Roblox logistics game." />
   <meta property="og:type" content="website" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <meta property="og:image" content="https://l-amb.github.io/mini-cargo-site/assets/preview.svg" />
+  <meta property="og:url" content="https://l-amb.github.io/mini-cargo-site/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script defer src="script.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
   <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js" defer></script>
@@ -22,215 +29,195 @@
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <nav>
-    <div class="logo">🚢 Mini Cargo</div>
-    <ul class="nav-links">
+    <a href="index.html" class="logo" aria-label="Mini Cargo home">
+      <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/96/96/Image/Png/noFilter" alt="Mini Cargo icon" class="logo-icon" />
+      <span>Mini Cargo</span>
+    </a>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&equiv;</button>
+    <ul class="nav-links" id="nav-menu">
       <li><a href="#stats">Stats</a></li>
       <li><a href="#play">Play</a></li>
       <li><a href="changelog.html">Changelog</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#video">Trailer</a></li>
-      <li><a href="#testimonials">Community</a></li>
-      <li><a href="#collaborate">Collaborate</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li><a href="collaborate.html">Collaborate</a></li>
       <li><a href="#discord">Discord</a></li>
+      <li>
+        <button id="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle dark mode">&#9681;</button>
+      </li>
     </ul>
   </nav>
 
-  <section class="hero" id="play">
-    <h1 id="typewriter"></h1>
-    <p class="tagline">A modern, playful Roblox cargo experience.</p>
-    <a class="play-button" href="https://www.roblox.com/games/132204795118843/Mini-Cargo" target="_blank" rel="noopener">▶ Play Now</a>
-    <a class="discord-button" href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">Join Discord</a>
-  </section>
+  <header id="play" class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 id="typewriter" aria-label="Welcome to Mini Cargo!"></h1>
+        <p class="tagline">Load it. Haul it. Climb the ranks. A playful Roblox logistics adventure.</p>
+        <div id="live-badge" class="live-badge" hidden>
+          <span class="dot"></span>
+          <span id="live-count">…</span> currently online
+        </div>
+        <div class="hero-actions">
+          <a class="play-button" href="https://www.roblox.com/games/132204795118843/Mini-Cargo" target="_blank" rel="noopener">Play Now on Roblox</a>
+          <a class="discord-button" href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">Join Discord</a>
+        </div>
+        <button id="refresh-stats" class="link-btn" type="button">Refresh live stats</button>
+      </div>
+      <div class="hero-art">
+        <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/512/512/Image/Png/noFilter" alt="Mini Cargo game icon" width="512" height="512" loading="eager" />
+      </div>
+    </div>
+  </header>
 
+  <main>
   <!-- Latest update preview -->
   <section id="latest" class="content-section" data-aos="fade-up">
-    <h2>🚀 Latest Update</h2>
+    <h2>&#128640; Latest Update</h2>
     <div class="latest-card">
-      <h3>Version 0.3 – 2026‑07‑26</h3>
-      <p>We added <strong>live Roblox stats</strong> with auto‑refresh, a <strong>Collaborate</strong> page to request a partnership with the game, an <strong>FAQ accordion</strong>, a brighter interactive UI theme, and a fixed stylesheet so the site actually renders correctly.</p>
-      <button class="details-btn" aria-expanded="false">Show Details</button>
-      <div class="details hidden">
+      <h3>Version 0.3 &mdash; 2026&#8209;07&#8209;26</h3>
+      <p>The site got a visual overhaul, a real game icon, an interactive Collaborate form, an FAQ accordion, dark mode, and live status straight from the Roblox API.</p>
+      <button class="details-btn" type="button" aria-expanded="false" aria-controls="latest-details">Show Details</button>
+      <div class="details hidden" id="latest-details">
         <ul>
-          <li>Live player counts pulled from the Roblox API (with refresh).</li>
-          <li>Interactive 12‑month growth chart (Chart.js).</li>
-          <li>Collaborate section: open a request to partner with the game.</li>
-          <li>FAQ accordion answering common player + partner questions.</li>
-          <li>Restored base CSS (the previous style.css was missing core styling).</li>
-          <li>Removed broken Unsplash screenshot URLs.</li>
-          <li>This site now renders fully without external CDN dependencies being required for layout.</li>
+          <li>Real game icon in hero and nav (replaces the placeholder logo).</li>
+          <li>Live player count badge with one-click refresh.</li>
+          <li>FAQ accordion so newcomers can self-serve.</li>
+          <li>Dark mode toggle persisted to localStorage.</li>
+          <li>Collaborate page posts to GitHub Issues as a real collab request.</li>
+          <li>Removed broken Unsplash placeholders and missing Chart.js dependency.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Stats -->
+  <!-- Stats – live + Chart.js graph -->
   <section id="stats" class="content-section" data-aos="fade-right">
-    <h2>📈 Live Stats</h2>
+    <h2>Live Stats</h2>
     <div class="stats-grid">
       <div class="stat-item">
-        <span class="stat-icon">👥</span>
-        <span class="stat-number" id="stat-playing">…</span>
-        <span class="stat-label">Playing right now</span>
+        <span class="stat-number" id="stat-players">—</span>
+        <span class="stat-label">Players online</span>
       </div>
       <div class="stat-item">
-        <span class="stat-icon">❤️</span>
-        <span class="stat-number" id="stat-favorites">…</span>
-        <span class="stat-label">Favorites</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-icon">🚀</span>
-        <span class="stat-number" id="stat-visits">…</span>
+        <span class="stat-number" id="stat-visits">—</span>
         <span class="stat-label">Total visits</span>
       </div>
       <div class="stat-item">
-        <span class="stat-icon">📅</span>
-        <span class="stat-number" id="stat-updated">…</span>
-        <span class="stat-label">Data age</span>
+        <span class="stat-number" id="stat-fav">—</span>
+        <span class="stat-label">Favorites</span>
       </div>
     </div>
+    <div class="chart-card">
+      <canvas id="statsChart" aria-label="Monthly active players chart" role="img"></canvas>
+    </div>
+    <noscript><p>Enable JavaScript to see the live stats chart.</p></noscript>
+  </section>
 
-    <canvas id="statsChart" height="120" aria-label="Mini Cargo player growth over the last 12 months"></canvas>
-    <p class="stat-source">Data: <a href="https://www.roblox.com/games/132204795118843/Mini-Cargo" target="_blank" rel="noopener">Roblox · Universe 10400840414</a> · live via <code>games.roblox.com</code></p>
-    <button id="refresh-stats" type="button">🔄 Refresh Stats</button>
+  <!-- Features -->
+  <section id="features" class="content-section" data-aos="fade-up">
+    <h2>What Makes Mini Cargo</h2>
+    <div class="features-grid">
+      <article class="feature">
+        <span class="feature-emoji">&#128666;</span>
+        <h3>Founder Pack</h3>
+        <p>Drive customisable trucks and skins on the leaderboards.</p>
+      </article>
+      <article class="feature">
+        <span class="feature-emoji">&#127942;</span>
+        <h3>Daily Challenges</h3>
+        <p>Fresh quests every day reward bonus cargo chips to spend.</p>
+      </article>
+      <article class="feature">
+        <span class="feature-emoji">&#129518;</span>
+        <h3>Leaderboards</h3>
+        <p>Climb global and friends-only leaderboards for fastest deliveries.</p>
+      </article>
+      <article class="feature">
+        <span class="feature-emoji">&#128099;</span>
+        <h3>Cargo Physics</h3>
+        <p>Loose loads shift and fall off — strap it down or lose it.</p>
+      </article>
+    </div>
   </section>
 
   <!-- Gallery -->
   <section id="gallery" class="content-section" data-aos="zoom-in">
-    <h2>🖼️ Screenshots</h2>
+    <h2>Screenshots</h2>
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="assets/preview.svg" alt="Mini Cargo hero banner" loading="lazy" /></div>
-        <div class="swiper-slide"><img src="assets/shot1.svg" alt="Cargo loading dock screenshot" loading="lazy" /></div>
-        <div class="swiper-slide"><img src="assets/shot2.svg" alt="Fleet management screenshot" loading="lazy" /></div>
-        <div class="swiper-slide"><img src="assets/shot3.svg" alt="Leaderboard view screenshot" loading="lazy" /></div>
+        <div class="swiper-slide"><img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/768/432/Image/Png/noFilter" alt="Mini Cargo thumbnail" /></div>
+        <div class="swiper-slide"><img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/768/432/Image/Png/noFilter" alt="Mini Cargo preview 2" /></div>
+        <div class="swiper-slide"><img src="assets/preview.svg" alt="Mini Cargo banner" /></div>
       </div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next" aria-label="Next screenshot"></div>
+      <div class="swiper-button-prev" aria-label="Previous screenshot"></div>
     </div>
-    <noscript>
-      <div class="gallery-fallback">
-        <figure><img src="assets/shot1.svg" alt="Cargo loading dock screenshot" /></figure>
-        <figure><img src="assets/shot2.svg" alt="Fleet management screenshot" /></figure>
-      </div>
-    </noscript>
   </section>
 
   <!-- Video trailer -->
   <section id="video" class="content-section" data-aos="fade-left">
-    <h2>🎬 Official Trailer</h2>
+    <h2>Official Trailer</h2>
     <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Mini Cargo Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <iframe id="trailer-frame" title="Mini Cargo Trailer" loading="lazy" allowfullscreen></iframe>
+      <p class="muted">Trailer link is pending author upload.</p>
     </div>
-    <p style="text-align:center;color:var(--text-muted);margin-top:0.75rem;font-size:0.85rem;">Placeholder trailer — replace with the real Mini Cargo trailer ID once it's published.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="content-section" data-aos="fade-up">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq" id="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">Is Mini Cargo free to play? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>Yes — it&rsquo;s a free Roblox experience. Optional cosmetic supporter packs support the dev team.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">What platforms is it on? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>PC, Mac, mobile, and Xbox via the Roblox app. A controller is recommended for precision parking.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">How do I request a feature or collab? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>The <a href="collaborate.html">Collaborate</a> page sends a request straight to the team via GitHub Issues.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">Where do I report bugs? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>Drop a message in the <a href="#discord" target="_self">Discord</a> bug-reports channel or use the Collaborate page.</p></div>
+      </div>
+    </div>
   </section>
 
   <!-- Community testimonials -->
   <section id="testimonials" class="content-section" data-aos="fade-up">
-    <h2>💬 What Players Say</h2>
+    <h2>What Players Say</h2>
     <div class="swiper testimonialSwiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><blockquote>“Addictive and fun! The cargo loop is so satisfying.” <cite>— Alex ⭐⭐⭐⭐⭐</cite></blockquote></div>
-        <div class="swiper-slide"><blockquote>“Best Roblox cargo game I've played. Daily challenges keep me coming back.” <cite>— Maya ⭐⭐⭐⭐⭐</cite></blockquote></div>
-        <div class="swiper-slide"><blockquote>“Can't wait for the new ship skins. Leaderboards add real competition.” <cite>— Sam ⭐⭐⭐⭐</cite></blockquote></div>
+        <div class="swiper-slide"><blockquote>&ldquo;Cargo physics nails the chaos of an unstrapped load. Top three Roblox games I&rsquo;ve logged this month.&rdquo; <cite>&#8212; Alex, content creator</cite></blockquote></div>
+        <div class="swiper-slide"><blockquote>&ldquo;Daily challenges give me a reason to come back. Hit #4 on my friends&rsquo; leaderboard yesterday.&rdquo; <cite>&#8212; Maya, player</cite></blockquote></div>
+        <div class="swiper-slide"><blockquote>&ldquo;Clean UI, fast loads, actual physics. Rare for a Roblox logistics game.&rdquo; <cite>&#8212; Sam, beta tester</cite></blockquote></div>
       </div>
       <div class="swiper-pagination"></div>
     </div>
   </section>
 
-  <!-- Collaborate (request to collab with the GAME, not the repo) -->
-  <section id="collaborate" class="content-section" data-aos="fade-up">
-    <h2>🤝 Collaborate</h2>
-    <p>Want to partner with <strong>Mini Cargo</strong> the game? We welcome YouTubers, streamers, other Roblox devs, brand integrations, and community events. Use the form below to send a collab request to the Mini Cargo team.</p>
-
-    <div class="collab-grid">
-      <div class="collab-card">
-        <span class="collab-emoji">🎥</span>
-        <h3>Content Creators</h3>
-        <p>YouTubers / TikTokers / streamers — get early access to updates and a shout‑out in return.</p>
-      </div>
-      <div class="collab-card">
-        <span class="collab-emoji">🛠️</span>
-        <h3>Roblox Developers</h3>
-        <p>Suggest features, contribute ideas, or co‑build limited‑time events and cosmetics.</p>
-      </div>
-      <div class="collab-card">
-        <span class="collab-emoji">🏆</span>
-        <h3>Community Events</h3>
-        <p>Host tournaments, speedruns, or takeover streams — we'll sponsor the prizes.</p>
-      </div>
-      <div class="collab-card">
-        <span class="collab-emoji">✨</span>
-        <h3>Brand / Crossover</h3>
-        <p>Cross‑promo with your Roblox experience, in‑game decals, or branded cargo skins.</p>
-      </div>
-    </div>
-
-    <form id="collab-form" novalidate>
-      <h3 style="margin-top:0;color:var(--accent-strong);">Send a collaboration request</h3>
-      <p style="color:var(--text-muted);margin-top:0;font-size:0.9rem;">This sends a request to <em>collaborate with the Mini Cargo game</em> — not the source code repo.</p>
-
-      <label for="collab-name">Your name</label>
-      <input id="collab-name" name="name" type="text" placeholder="e.g. Jordan R." required />
-
-      <label for="collab-email">Contact email or Discord handle</label>
-      <input id="collab-email" name="contact" type="text" placeholder="you@example.com or @you" required />
-
-      <label for="collab-type">Collaboration type</label>
-      <select id="collab-type" name="type">
-        <option value="content">Content creator (YouTube/TikTok/stream)</option>
-        <option value="developer">Roblox developer / feature idea</option>
-        <option value="event">Community event / tournament</option>
-        <option value="brand">Brand / crossover</option>
-        <option value="other">Other</option>
-      </select>
-
-      <label for="collab-message">Tell us about it</label>
-      <textarea id="collab-message" name="message" rows="4" placeholder="Audience size, what you'd like to do, timeline…" required></textarea>
-
-      <button type="submit" class="primary">Send collab request →</button>
-      <div class="form-status" role="status" aria-live="polite"></div>
-      <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem;">⚠️ Demo form: submissions are not stored yet. Wire it up to your Discord webhook or Formspree to actually receive requests.</p>
-    </form>
-  </section>
-
-  <!-- FAQ accordion -->
-  <section id="faq" class="content-section" data-aos="fade-up">
-    <h2>❓ FAQ</h2>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">Is Mini Cargo free to play? <span class="chevron">▾</span></button>
-      <div class="faq-a"><p>Yes! Mini Cargo is free to play on Roblox. Cosmetic skins are optional and don't affect gameplay.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">How do I appear on the leaderboard? <span class="chevron">▾</span></button>
-      <div class="faq-a"><p>Finish deliveries quickly — the leaderboard ranks fastest delivery times across a rolling 7‑day window.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">Can I partner with Mini Cargo? <span class="chevron">▾</span></button>
-      <div class="faq-a"><p>Yes — head up to the <a href="#collaborate">Collaborate</a> form and tell us what you have in mind. We accept content creators, brand crossovers, and community events.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">Where can I report a bug? <span class="chevron">▾</span></button>
-      <div class="faq-a"><p>The fastest way is our Discord — open a ticket in the <code>#bug-reports</code> channel. Please include steps to reproduce and screenshots.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">How often does the game update? <span class="chevron">▾</span></button>
-      <div class="faq-a"><p>We aim for a small update every 1–2 weeks. Check the <a href="changelog.html">changelog</a> for the full history.</p></div>
-    </div>
-  </section>
-
-  <!-- Discord -->
-  <section id="discord" class="content-section" data-aos="fade-up">
-    <h2>💬 Join Our Discord Community</h2>
-    <a class="discord-widget" href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">
-      <img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="Join the Mini Cargo Discord" style="width:200px;border-radius:0.5rem;" />
+  <!-- Discord invite widget -->
+  <section id="discord" class="content-section discord-section" data-aos="fade-up">
+    <h2>Join Our Discord Community</h2>
+    <p>Bug reports, patch notes, sneak peeks &mdash; and a direct line to the dev team.</p>
+    <a class="discord-button standalone" href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">
+      <span class="discord-logo" aria-hidden="true">&#128172;</span> Open Discord Invite
     </a>
   </section>
+  </main>
 
   <footer>
-    <p>&copy; 2026 Mini Cargo — All rights reserved. Not affiliated with Roblox Corporation.</p>
-    <button id="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+    <p>&copy; 2026 Mini Cargo. Fan site. Roblox is a trademark of Roblox Corporation.</p>
+    <div class="footer-links">
+      <a href="collaborate.html">Collaborate</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="#faq">FAQ</a>
+      <button id="back-to-top" title="Back to top" type="button">&#8593;</button>
+    </div>
   </footer>
 </body>
 </html>

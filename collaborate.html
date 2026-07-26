@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Cargo – Collaborate</title>
+  <meta name="description" content="Request to collaborate on the Mini Cargo Roblox game — features, level design, art, music, partnerships." />
+  <meta name="theme-color" content="#4a90e2" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+  <script>
+    // Set saved theme ASAP to avoid flash of wrong-theme styles.
+    (function(){var t = localStorage.getItem('mc-theme'); if (t) document.documentElement.setAttribute('data-theme', t);})();
+  </script>
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <nav>
+    <a href="index.html" class="logo" aria-label="Mini Cargo home">
+      <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/96/96/Image/Png/noFilter" alt="Mini Cargo icon" class="logo-icon" />
+      <span>Mini Cargo</span>
+    </a>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&equiv;</button>
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="index.html#stats">Stats</a></li>
+      <li><a href="index.html#play">Play</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+      <li><a href="index.html#gallery">Gallery</a></li>
+      <li><a href="index.html#video">Trailer</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="collaborate.html">Collaborate</a></li>
+      <li><a href="index.html#discord">Discord</a></li>
+      <li>
+        <button id="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle dark mode">&#9681;</button>
+      </li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-copy">
+      <h1>Collaborate on Mini Cargo</h1>
+      <p class="tagline">Have an idea for the game? Want to contribute art, music, a level, or partner with us? Send a request and the team will take a look.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="content-section">
+      <h2>Submit a Collab Request</h2>
+      <p class="muted">Your request is filed as a GitHub Issue in the Mini Cargo project board so nothing gets lost. You don&rsquo;t need to share any code — just describe what you&rsquo;d like to contribute to the game itself.</p>
+
+      <form id="collab-form" class="collab-card" novalidate>
+        <div class="form-grid">
+          <div>
+            <label for="collab-name">Your name or handle</label>
+            <input id="collab-name" name="name" type="text" placeholder="e.g. @robloxdev42" autocomplete="name" />
+          </div>
+          <div>
+            <label for="collab-contact">Contact (Discord / email / Roblox user)</label>
+            <input id="collab-contact" name="contact" type="text" placeholder="how should we reach you?" autocomplete="email" />
+          </div>
+          <div class="full">
+            <label for="collab-type">What would you like to contribute?</label>
+            <select id="collab-type" name="type">
+              <option>Level / Map design</option>
+              <option>3D model or cosmetic</option>
+              <option>Music / SFX</option>
+              <option>Feature idea</option>
+              <option>Bug report</option>
+              <option>Partnership / cross-promo</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="collab-message">Tell us about it</label>
+            <textarea id="collab-message" name="message" placeholder="What do you want to contribute? Any links to your work, screenshots, or a brief pitch."></textarea>
+          </div>
+          <div class="full">
+            <button type="submit">Send request</button>
+          </div>
+        </div>
+        <div id="collab-status" class="form-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="content-section">
+      <h2>Other ways to reach us</h2>
+      <p class="muted">
+        Prefer chat? Join the <a href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">#collab-requests channel on Discord</a>.
+        Existing requests (and the team&rsquo;s replies) live on the public board at
+        <a href="https://github.com/l-amb/mini-cargo-site/issues?q=label%3A%22collab-request%22" target="_blank" rel="noopener">github.com/l-amb/mini-cargo-site/issues</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Mini Cargo. Fan site. Roblox is a trademark of Roblox Corporation.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="index.html#faq">FAQ</a>
+      <button id="back-to-top" title="Back to top" type="button">&#8593;</button>
+    </div>
+  </footer>
+</body>
+</html>

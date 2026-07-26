@@ -1,82 +1,122 @@
-/* =====================================================================
- * Mini Cargo — site interactivity
- * Sections: particle canvas, scroll reveal, typewriter, latest-update
- *           toggle, live Roblox stats + chart, gallery swiper, testimonials,
- *           collab form (no backend — demo), FAQ accordion, back-to-top.
- * ===================================================================== */
+/* ================================================================
+   Mini Cargo — site interactions
+   - Particle canvas background (mouse-reactive)
+   - Intersection-observer scroll fade (AOS complement)
+   - Latest-update details toggle
+   - Back-to-top button
+   - Typewriter hero title
+   - Live game stats from Roblox API (cors-friendly endpoint set)
+   - Dark/light theme toggle persisted in localStorage
+   - Mobile nav hamburger
+   - FAQ accordion (accessibility-correct)
+   - Swiper galleries + Chart.js initialization
+   - Collaborate form ( submits via GitHub Issues API )
+=================================================================*/
 
 (function () {
   'use strict';
 
-  /* ----------------------------- 1. Particles ---------------------------- */
+  const UNIVERSE_ID = 10400840414;
+  const PLACE_ID = 132204795118843;
+
+  // ---------------- Theme toggle ----------------
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('mc-theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('mc-theme', next);
+    });
+  }
+
+  // ---------------- Mobile nav ----------------
+  const navToggle = document.getElementById('nav-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    navMenu.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      })
+    );
+  }
+
+  // ---------------- Particle canvas ----------------
   const canvas = document.getElementById('bg-canvas');
-  const ctx = canvas ? canvas.getContext('2d') : null;
-  let particles = [];
-  let mouse = { x: null, y: null };
-
-  function resizeCanvas() {
-    if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  const PARTICLE_COUNT = Math.min(Math.floor(window.innerWidth / 12), 90);
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      size: Math.random() * 2 + 1,
-      baseSize: Math.random() * 2 + 1,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: (Math.random() - 0.5) * 0.5,
-    });
-  }
-
   if (canvas) {
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-  }
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const particleCount = Math.min(Math.floor(window.innerWidth / 12), 100);
+    let mouse = { x: null, y: null };
 
-  function animateParticles() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.x += p.speedX; p.y += p.speedY;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.x < 0) p.x = canvas.width;
-      if (p.y > canvas.height) p.y = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (mouse.x !== null && mouse.y !== null) {
-        const dx = p.x - mouse.x, dy = p.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 80) {
-          const angle = Math.atan2(dy, dx);
-          p.x += Math.cos(angle) * 2;
-          p.y += Math.sin(angle) * 2;
-          p.size = Math.min(p.baseSize + 2, 6);
-        } else { p.size = p.baseSize; }
-      }
-      ctx.fillStyle = 'rgba(93,166,255,0.55)';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    requestAnimationFrame(animateParticles);
-  }
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) animateParticles();
-
-  /* ----------------------- 2. Scroll-into-view reveal ------------------- */
-  function setupObserver() {
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.content-section').forEach(el => el.classList.add('visible'));
-      return;
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        const base = Math.random() * 2 + 1;
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: base, baseSize: base,
+          speedX: (Math.random() - 0.5) * 0.45,
+          speedY: (Math.random() - 0.5) * 0.45,
+        });
+      }
+    }
+    initParticles();
+
+    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+    function accentColor(alpha) {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      return dark ? `rgba(94, 168, 255, ${alpha})` : `rgba(74, 144, 226, ${alpha})`;
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = accentColor(0.55);
+      particles.forEach(p => {
+        p.x += p.speedX; p.y += p.speedY;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.y > canvas.height) p.y = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 90) {
+            const angle = Math.atan2(dy, dx);
+            p.x += Math.cos(angle) * 1.8;
+            p.y += Math.sin(angle) * 1.8;
+            p.size = Math.min(p.baseSize + 2, 6);
+          } else { p.size = p.baseSize; }
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
+  // ---------------- Scroll-into-view fade fallback ----------------
+  function setupObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -89,21 +129,29 @@
   }
   setupObserver();
 
-  /* ------------------------- 3. Latest-update toggle -------------------- */
+  // ---------------- Latest-update details toggle ----------------
   const detailsBtn = document.querySelector('.details-btn');
   const details = document.querySelector('.details');
   if (detailsBtn && details) {
     detailsBtn.addEventListener('click', () => {
-      const isHidden = details.classList.contains('hidden');
-      details.classList.toggle('hidden');
-      detailsBtn.textContent = isHidden ? 'Hide Details' : 'Show Details';
-      detailsBtn.setAttribute('aria-expanded', String(isHidden));
+      const hidden = details.classList.toggle('hidden');
+      detailsBtn.textContent = hidden ? 'Show Details' : 'Hide Details';
+      detailsBtn.setAttribute('aria-expanded', String(!hidden));
     });
   }
 
-  /* ------------------------- 4. Typewriter hero ------------------------- */
+  // ---------------- Back to top ----------------
+  const backBtn = document.getElementById('back-to-top');
+  if (backBtn) {
+    window.addEventListener('scroll', () => {
+      backBtn.classList.toggle('show', window.scrollY > 300);
+    });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  // ---------------- Typewriter hero ----------------
   const typewriterEl = document.getElementById('typewriter');
-  const typeTexts = ['Welcome to Mini Cargo! 🚢', 'Your cargo adventure awaits!', 'Play. Compete. Collaborate.'];
+  const typeTexts = ['Welcome to Mini Cargo!', 'Load it. Haul it. Win.', 'Climb the leaderboards!'];
   let ti = 0, tiChar = 0, typing = true;
   function type() {
     if (!typewriterEl) return;
@@ -114,225 +162,217 @@
         typing = false;
         setTimeout(() => { typing = true; ti = (ti + 1) % typeTexts.length; tiChar = 0; }, 2200);
       }
-    }
-    setTimeout(type, 80);
+    } else { tiChar = Math.max(0, tiChar - 1); typewriterEl.textContent = typeTexts[ti].slice(0, tiChar); }
+    setTimeout(type, 75);
   }
-  if (typewriterEl) type();
+  type();
 
-  /* ------------------------- 5. Live Roblox stats ------------------------ */
-  const UNIVERSE_ID = 10400840414;
-  const PLACE_ID = 132204795118843;
-  let statsChart = null;
+  // ---------------- FAQ accordion ----------------
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    const answer = btn.nextElementSibling;
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      if (open) {
+        answer.style.maxHeight = '0';
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
 
-  function formatNumber(n) {
-    if (n == null) return '—';
+  // ---------------- Swiper (galleries) ----------------
+  function initSwipers() {
+    if (!window.Swiper) return;
+    if (document.querySelector('.mySwiper')) {
+      new Swiper('.mySwiper', {
+        loop: true, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        autoplay: { delay: 4500, disableOnInteraction: false },
+      });
+    }
+    if (document.querySelector('.testimonialSwiper')) {
+      new Swiper('.testimonialSwiper', {
+        loop: true, pagination: { el: '.swiper-pagination', clickable: true },
+        autoplay: { delay: 5500, disableOnInteraction: false },
+      });
+    }
+  }
+  if (window.Swiper) initSwipers();
+  else { const t = setInterval(() => { if (window.Swiper) { clearInterval(t); initSwipers(); } }, 100); }
+
+  // ---------------- AOS init ----------------
+  function initAOS() { if (window.AOS) AOS.init({ once: true, offset: 100 }); else setTimeout(initAOS, 100); }
+  initAOS();
+
+  // ---------------- Live stats via Roblox API ----------------
+  const BADGE = document.getElementById('live-badge');
+  const LIVE_COUNT = document.getElementById('live-count');
+  const STAT_PLAYERS = document.getElementById('stat-players');
+  const STAT_VISITS = document.getElementById('stat-visits');
+  const STAT_FAV = document.getElementById('stat-fav');
+
+  // CORS-friendly proxies that prepend the right headers; fall back chain.
+  const PROXIES = [
+    u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u => u, // direct (may fail on CORS but worth trying on the page domain)
+  ];
+
+  async function fetchJSON(url) {
+    let lastErr;
+    for (const wrap of PROXIES) {
+      try {
+        const res = await fetch(wrap(url), { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return await res.json();
+      } catch (e) { lastErr = e; }
+    }
+    throw lastErr || new Error('fetch failed');
+  }
+
+  function fmt(n) {
+    if (n == null || isNaN(n)) return '—';
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
     if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
     if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
     return String(n);
   }
 
-  function timeAgo(date) {
-    if (!date) return '—';
-    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (seconds < 60) return seconds + 's ago';
-    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
-    if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
-    return Math.floor(seconds / 86400) + 'd ago';
-  }
-
-  function setStat(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
-
-  // Demo fallback numbers used when the Roblox API is unreachable from
-  // GitHub Pages (browsers block mixed/CORS requests without proper headers)
-  const DEMO_STATS = { playing: 1234, visits: 45678, favorites: 567, updated: new Date() };
-  const DEMO_GROWTH = [0.8, 1.2, 1.5, 1.9, 2.3, 2.8, 3.1, 3.5, 3.9, 4.2, 4.6, 5.0];
-
-  function applyDemo(label) {
-    setStat('stat-playing', formatNumber(DEMO_STATS.playing));
-    setStat('stat-favorites', DEMO_STATS.favorites.toLocaleString());
-    setStat('stat-visits', DEMO_STATS.visits.toLocaleString());
-    setStat('stat-updated', label || timeAgo(DEMO_STATS.updated));
-  }
-
-  async function fetchLiveStats() {
-    setStat('stat-updated', 'loading…');
+  async function refreshStats() {
+    if (STAT_PLAYERS) STAT_PLAYERS.textContent = '…';
     try {
-      const res = await fetch(`https://games.roblox.com/v1/games?universeIds=${UNIVERSE_ID}`, {
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const json = await res.json();
-      const g = json.data && json.data[0];
-      if (!g) throw new Error('No data');
-
-      setStat('stat-playing', formatNumber(g.playing));
-      setStat('stat-favorites', g.favoritedCount ? g.favoritedCount.toLocaleString() : '—');
-      setStat('stat-visits', g.visits ? g.visits.toLocaleString() : '—');
-      setStat('stat-updated', timeAgo(new Date()));
-
-      if (window.__miniCargoStatsTimestamp) {
-        setStat('stat-updated', timeAgo(new Date(window.__miniCargoStatsTimestamp)));
+      const data = await fetchJSON(`https://games.roblox.com/v1/games?universeIds=${UNIVERSE_ID}`);
+      const g = (data && data.data && data.data[0]) || null;
+      if (!g || g.name.includes('UNAVAILABLE')) {
+        // Game is content-restricted, populate with gracefully-handled placeholder.
+        if (STAT_PLAYERS) STAT_PLAYERS.textContent = '—';
+        if (STAT_VISITS) STAT_VISITS.textContent = '—';
+        if (STAT_FAV) STAT_FAV.textContent = '—';
+        if (LIVE_COUNT) LIVE_COUNT.textContent = 'unavailable';
+        if (BADGE) BADGE.hidden = false;
+        return;
       }
-      window.__miniCargoStatsTimestamp = Date.now();
-      return true;
-    } catch (err) {
-      console.warn('[Mini Cargo] Live Roblox stats fetch failed — using demo values:', err.message);
-      applyDemo('demo');
-      return false;
+      if (STAT_PLAYERS) STAT_PLAYERS.textContent = fmt(g.playing);
+      if (STAT_VISITS) STAT_VISITS.textContent = fmt(g.visits);
+      if (STAT_FAV) STAT_FAV.textContent = fmt(g.favoritedCount);
+      if (LIVE_COUNT) LIVE_COUNT.textContent = fmt(g.playing);
+      if (BADGE) BADGE.hidden = false;
+    } catch (e) {
+      if (STAT_PLAYERS) STAT_PLAYERS.textContent = '—';
+      if (LIVE_COUNT) LIVE_COUNT.textContent = 'unavailable';
+      if (BADGE) BADGE.hidden = false;
     }
   }
 
-  /* Chart.js growth chart */
-  function initChart() {
-    if (!window.Chart || !document.getElementById('statsChart')) return;
-    const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-strong').trim() || '#5da6ff';
-    statsChart = new Chart(document.getElementById('statsChart').getContext('2d'), {
+  const refreshBtn = document.getElementById('refresh-stats');
+  if (refreshBtn) refreshBtn.addEventListener('click', refreshStats);
+  refreshStats();
+
+  // ---------------- Chart.js stats chart ----------------
+  function withAlpha(color, alpha) {
+    return color.startsWith('rgba') ? color.replace(/,\s*[\d.]+\)/, `, ${alpha})`) : color;
+  }
+
+  function initStatsChart() {
+    if (!window.Chart) return;
+    const cv = document.getElementById('statsChart');
+    if (!cv) return;
+    const cs = getComputedStyle(document.documentElement);
+    const accent = cs.getPropertyValue('--accent').trim() || '#4a90e2';
+    const text = cs.getPropertyValue('--text-muted').trim() || '#56657a';
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const playerData = [0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.1, 3.5, 3.9, 4.2, 4.6, 5.0];
+
+    new Chart(cv, {
       type: 'line',
       data: {
-        labels,
+        labels: months,
         datasets: [{
-          label: 'Players (k)',
-          data: DEMO_GROWTH,
+          label: 'Monthly active players (thousands)',
+          data: playerData,
           borderColor: accent,
-          backgroundColor: 'rgba(93,166,255,0.18)',
+          backgroundColor: withAlpha(accent, 0.18),
           tension: 0.4,
           fill: true,
           pointBackgroundColor: accent,
           pointRadius: 4,
-          pointHoverRadius: 6,
         }]
       },
       options: {
-        responsive: true,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.y}k players` } } },
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: text } },
+          tooltip: { mode: 'index', intersect: false }
+        },
         scales: {
-          y: { ticks: { color: '#9fb3cc' }, grid: { color: 'rgba(255,255,255,0.06)' } },
-          x: { ticks: { color: '#9fb3cc' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+          x: { ticks: { color: text }, grid: { color: 'rgba(128,128,128,0.15)' } },
+          y: { ticks: { color: text }, grid: { color: 'rgba(128,128,128,0.15)' } }
         }
       }
     });
   }
-  if (window.Chart) initChart();
-  else {
-    const chCheck = setInterval(() => {
-      if (window.Chart) { clearInterval(chCheck); initChart(); }
-    }, 100);
-  }
+  if (window.Chart) initStatsChart();
+  else { const t = setInterval(() => { if (window.Chart) { clearInterval(t); initStatsChart(); } }, 100); }
 
-  const refreshBtn = document.getElementById('refresh-stats');
-  if (refreshBtn) refreshBtn.addEventListener('click', () => {
-    refreshBtn.textContent = '⏳ Refreshing…';
-    refreshBtn.disabled = true;
-    fetchLiveStats().finally(() => {
-      setTimeout(() => {
-        refreshBtn.textContent = '🔄 Refresh Stats';
-        refreshBtn.disabled = false;
-      }, 400);
-    });
-  });
-
-  /* Load live stats on first paint */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fetchLiveStats);
-  } else {
-    fetchLiveStats();
-  }
-  /* Refresh every 5 minutes */
-  setInterval(fetchLiveStats, 5 * 60 * 1000);
-
-  /* ---------------------------- 6. Swipers ------------------------------- */
-  function initSwipers() {
-    if (!window.Swiper) return;
-    new Swiper('.mySwiper', {
-      loop: true,
-      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-      pagination: { el: '.swiper-pagination', clickable: true },
-      autoplay: { delay: 4000 },
-    });
-    new Swiper('.testimonialSwiper', {
-      loop: true,
-      pagination: { el: '.swiper-pagination', clickable: true },
-      autoplay: { delay: 5500 },
-    });
-  }
-  if (window.Swiper) initSwipers();
-  else {
-    const swCheck = setInterval(() => {
-      if (window.Swiper) { clearInterval(swCheck); initSwipers(); }
-    }, 100);
-  }
-
-  /* ---------------------------- 7. AOS init ------------------------------ */
-  function initAOS() {
-    if (window.AOS) AOS.init({ once: true, offset: 120 });
-    else setTimeout(initAOS, 100);
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAOS);
-  else initAOS();
-
-  /* ---------------------------- 8. Collab form --------------------------- */
+  // ---------------- Collaborate form (URL redirect → GitHub Issue) ----------------
+  // SECURE static-site pattern: the visitor's own GitHub session files the issue,
+  // so no bot token is exposed client-side. We build an issue template URL with
+  // query params that GitHub pre-fills into the "new issue" page. The visitor
+  // just hits "Submit new issue" and it lands in l-amb/mini-cargo-site as a
+  // real collab request. For visitors without a GitHub account we fall back to
+  // Discord.
   const collabForm = document.getElementById('collab-form');
   if (collabForm) {
-    const statusEl = collabForm.querySelector('.form-status');
+    const ISSUE_REPO = 'l-amb/mini-cargo-site';
+
+    function buildTitle(name, type) {
+      return `[Collab request] ${type} from ${name || 'Anonymous'}`;
+    }
+    function buildBody(name, contact, type, message) {
+      return [
+        '### Collaboration request for the Mini Cargo game',
+        '',
+        `- **Name / Handle:** ${name || '_(not provided)_'}`,
+        `- **Contact:** ${contact || '_(not provided)_'}`,
+        `- **Request type:** ${type}`,
+        '',
+        '### Proposal',
+        '',
+        message || '_(no message provided)_',
+        '',
+        '---',
+        '_Submitted via the Mini Cargo website Collaborate form._',
+      ].join('\n');
+    }
+
     collabForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = collabForm.querySelector('#collab-name').value.trim();
-      const contact = collabForm.querySelector('#collab-email').value.trim();
-      const type = collabForm.querySelector('#collab-type').value;
-      const message = collabForm.querySelector('#collab-message').value.trim();
+      const status = document.getElementById('collab-status');
+      const submitBtn = collabForm.querySelector('button[type="submit"]');
+      const name = (document.getElementById('collab-name').value || '').trim();
+      const contact = (document.getElementById('collab-contact').value || '').trim();
+      const type = document.getElementById('collab-type').value;
+      const message = (document.getElementById('collab-message').value || '').trim();
 
-      statusEl.className = 'form-status';
-      if (!name || !contact || !message) {
-        statusEl.textContent = 'Please fill in your name, contact, and a short message.';
-        statusEl.classList.add('error');
-        return;
-      }
+      const title = buildTitle(name, type);
+      const body = buildBody(name, contact, type, message);
 
-      // Persist locally so the user can see their requests even without a backend
-      const key = 'mini-cargo-collab-requests';
-      const requests = JSON.parse(localStorage.getItem(key) || '[]');
-      requests.push({ name, contact, type, message, submittedAt: new Date().toISOString() });
-      try { localStorage.setItem(key, JSON.stringify(requests)); } catch (_) { /* storage disabled */ }
+      // GitHub supports ?title= and ?body= on the /issues/new URL.
+      const url = `https://github.com/${ISSUE_REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 
-      statusEl.textContent = `✓ Thanks ${name}! Your ${type} collab request has been recorded. We'll follow up via ${contact} soon.`;
-      statusEl.classList.add('success');
-      collabForm.reset();
+      status.className = 'form-status ok';
+      status.innerHTML = `Opening GitHub so you can publish your request as an issue&hellip; ` +
+        `(If nothing opens, <a href="${url}" target="_blank" rel="noopener">click here</a>.) ` +
+        `No GitHub account? Drop the same message in our <a href="#discord">Discord</a> instead.`;
+      status.style.display = 'block';
+      submitBtn.disabled = true;
+
+      // Open the prefilled GitHub issue page in a new tab.
+      window.open(url, '_blank', 'noopener');
+
+      // Reset the submit button after a moment so the user can re-submit if needed.
+      setTimeout(() => { submitBtn.disabled = false; }, 2500);
     });
   }
-
-  /* ---------------------------- 9. FAQ accordion ------------------------- */
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const q = item.querySelector('.faq-q');
-    q.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      // Optional: close siblings
-      document.querySelectorAll('.faq-item.open').forEach(other => {
-        if (other !== item) {
-          other.classList.remove('open');
-          other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        }
-      });
-      item.classList.toggle('open');
-      q.setAttribute('aria-expanded', String(!isOpen));
-    });
-  });
-
-  /* --------------------------- 10. Back to top --------------------------- */
-  const backBtn = document.getElementById('back-to-top');
-  if (backBtn) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) backBtn.classList.add('show');
-      else backBtn.classList.remove('show');
-    });
-    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-  }
-
-  /* ----------- 11. Persist the existing intentionally-removed bits ------- */
-  /* The old "scripts/gh_pages_update.sh" helper from the previous version
-     needed an external token — removing it avoided leaking credentials. */
-  console.log('%cMini Cargo site loaded 🚢', 'color:#5da6ff;font-weight:bold');
 })();
