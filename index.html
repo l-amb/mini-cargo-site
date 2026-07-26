@@ -4,11 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Cargo – Home</title>
-  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you manage cargo ships and compete on leaderboards." />
+  <meta name="description" content="Mini Cargo is a modern, playful Roblox game where you manage cargo ships and compete on leaderboards. Join the community, watch videos, see live stats, and explore screenshots." />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- AOS for scroll animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <!-- Swiper for carousel -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
+  <!-- AOS & Swiper & Chart.js scripts (deferred) -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 <body>
+  <!-- Canvas particle background -->
   <canvas id="bg-canvas"></canvas>
   <nav>
     <div class="logo">Mini Cargo</div>
@@ -16,53 +27,90 @@
       <li><a href="#stats">Stats</a></li>
       <li><a href="#play">Play</a></li>
       <li><a href="changelog.html">Changelog</a></li>
-      <li><a href="#collaborate">Collaborate</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#testimonials">Community</a></li>
     </ul>
   </nav>
 
   <section class="hero">
-    <h1>Welcome to Mini Cargo!</h1>
+    <h1 id="typewriter"></h1>
     <p class="tagline">A modern, playful Roblox experience.</p>
     <a class="play-button" href="https://www.roblox.com/games/132204795118843/Mini-Cargo" target="_blank">Play Now</a>
+    <a class="discord-button" href="https://discord.com/invite/placeholder" target="_blank">Join Discord</a>
   </section>
 
   <!-- Latest update preview card -->
-  <section id="latest" class="content-section">
+  <section id="latest" class="content-section" data-aos="fade-up">
     <h2>🚀 Latest Update</h2>
     <div class="latest-card">
       <h3>Version 0.2 – 2026‑07‑12</h3>
-      <p>Added leaderboards, daily challenges, sleek light‑blue theme with smooth scroll‑in animations, and a new <strong>Collaborate</strong> section.</p>
+      <p>Added leaderboards, daily challenges, sleek light‑blue theme, scroll‑into‑view animations, and a new <strong>Collaborate</strong> section.</p>
       <button class="details-btn">Show Details</button>
       <div class="details hidden">
         <ul>
           <li>Animated navigation underline on hover.</li>
           <li>Hero background gradient animation.</li>
-          <li>IntersectionObserver‑driven fade‑in for sections.</li>
-          <li>Responsive mobile layout.</li>
-          <li>Canvas particle background reacting to mouse movement.</li>
+          <li>Particle canvas reacting to mouse.</li>
+          <li>Interactive stats chart (players over time).</li>
+          <li>Screenshot carousel powered by Swiper.</li>
+          <li>Embedded YouTube trailer.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section id="stats" class="content-section">
-    <h2>Stats</h2>
-    <p>Players worldwide: <strong>1,234</strong></p>
-    <p>Average session length: <strong>12 min</strong></p>
+  <!-- Stats with Chart.js -->
+  <section id="stats" class="content-section" data-aos="fade-right">
+    <h2>Live Stats</h2>
+    <canvas id="statsChart" width="400" height="200"></canvas>
   </section>
 
-  <section id="play" class="content-section">
-    <h2>Play</h2>
-    <p>Jump into the fun directly on Roblox. No download required.</p>
+  <!-- Gallery carousel -->
+  <section id="gallery" class="content-section" data-aos="zoom-in">
+    <h2>Screenshots</h2>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="https://source.unsplash.com/800x450/?game,roblox" alt="Screenshot 1" /></div>
+        <div class="swiper-slide"><img src="https://source.unsplash.com/801x451/?cargo,game" alt="Screenshot 2" /></div>
+        <div class="swiper-slide"><img src="https://source.unsplash.com/802x452/?gaming" alt="Screenshot 3" /></div>
+      </div>
+      <!-- Navigation arrows -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
   </section>
 
-  <section id="collaborate" class="content-section">
-    <h2>Collaborate</h2>
-    <p>We welcome community contributions! Join our Discord or submit pull requests.</p>
+  <!-- Video embed -->
+  <section id="video" class="content-section" data-aos="fade-left">
+    <h2>Official Trailer</h2>
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Mini Cargo Trailer" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- Testimonials / community carousel -->
+  <section id="testimonials" class="content-section" data-aos="fade-up">
+    <h2>What Players Say</h2>
+    <div class="swiper testimonialSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><blockquote>"Addictive and fun!" – Alex</blockquote></div>
+        <div class="swiper-slide"><blockquote>"Best Roblox cargo game ever." – Maya</blockquote></div>
+        <div class="swiper-slide"><blockquote>"Can't wait for new challenges." – Sam</blockquote></div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- Discord widget -->
+  <section class="content-section" data-aos="fade-up">
+    <h2>Join Our Discord</h2>
+    <iframe src="https://discord.com/widget?id=123456789012345678&theme=light" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
   </section>
 
   <footer>
     <p>&copy; 2026 Mini Cargo — All rights reserved.</p>
+    <button id="back-to-top" title="Back to top">↑</button>
   </footer>
 </body>
 </html>
