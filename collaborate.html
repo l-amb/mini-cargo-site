@@ -48,8 +48,11 @@
 
   <main>
     <section class="content-section">
-      <h2>Submit a Collab Request</h2>
-      <p class="muted">Your request is filed as a GitHub Issue in the Mini Cargo project board so nothing gets lost. You don&rsquo;t need to share any code — just describe what you&rsquo;d like to contribute to the game itself.</p>
+      <h2>Submit a Game Collab Request</h2>
+      <div class="collab-notice">
+        <p>&#127918; <strong>This form is for collaborating on the Mini Cargo <em>game</em></strong> &mdash; not for contributing to this website&rsquo;s source code. We&rsquo;re looking for level designers, 3D artists, musicians, feature ideas, testers, and game partners.</p>
+      </div>
+      <p class="muted">Your request is filed as a GitHub Issue in the Mini Cargo project board so nothing gets lost. You don&rsquo;t need to share any code &mdash; just describe what you&rsquo;d like to contribute to the game itself.</p>
 
       <form id="collab-form" class="collab-card" novalidate>
         <div class="form-grid">
@@ -62,7 +65,7 @@
             <input id="collab-contact" name="contact" type="text" placeholder="how should we reach you?" autocomplete="email" />
           </div>
           <div class="full">
-            <label for="collab-type">What would you like to contribute?</label>
+            <label for="collab-type">What would you like to contribute to the game?</label>
             <select id="collab-type" name="type">
               <option>Level / Map design</option>
               <option>3D model or cosmetic</option>
@@ -70,15 +73,21 @@
               <option>Feature idea</option>
               <option>Bug report</option>
               <option>Partnership / cross-promo</option>
+              <option>Game testing / QA</option>
+              <option>Scripting / Lua help</option>
               <option>Other</option>
             </select>
           </div>
           <div class="full">
-            <label for="collab-message">Tell us about it</label>
-            <textarea id="collab-message" name="message" placeholder="What do you want to contribute? Any links to your work, screenshots, or a brief pitch."></textarea>
+            <label for="collab-portfolio">Portfolio or examples (optional)</label>
+            <input id="collab-portfolio" name="portfolio" type="url" placeholder="https://devforum.roblox.com/u/yourname or links to your work" />
           </div>
           <div class="full">
-            <button type="submit">Send request</button>
+            <label for="collab-message">Tell us about it</label>
+            <textarea id="collab-message" name="message" placeholder="What do you want to contribute to the game? Any links to your work, screenshots, or a brief pitch."></textarea>
+          </div>
+          <div class="full">
+            <button type="submit">Send game collab request</button>
           </div>
         </div>
         <div id="collab-status" class="form-status" role="status" aria-live="polite"></div>
@@ -89,8 +98,8 @@
       <h2>Other ways to reach us</h2>
       <p class="muted">
         Prefer chat? Join the <a href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">#collab-requests channel on Discord</a>.
-        Existing requests (and the team&rsquo;s replies) live on the public board at
-        <a href="https://github.com/l-amb/mini-cargo-site/issues?q=label%3A%22collab-request%22" target="_blank" rel="noopener">github.com/l-amb/mini-cargo-site/issues</a>.
+        Existing game collab requests (and the team&rsquo;s replies) live on the public board at
+        <a href="https://github.com/l-amb/mini-cargo-site/issues?q=label%3A%22game-collab%22" target="_blank" rel="noopener">github.com/l-amb/mini-cargo-site/issues</a>.
       </p>
     </section>
   </main>

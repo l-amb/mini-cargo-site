@@ -28,6 +28,9 @@
 <body>
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
+  <!-- Progress bar showing scroll progress -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
   <nav>
     <a href="index.html" class="logo" aria-label="Mini Cargo home">
       <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/96/96/Image/Png/noFilter" alt="Mini Cargo icon" class="logo-icon" />
@@ -65,7 +68,29 @@
         <button id="refresh-stats" class="link-btn" type="button">Refresh live stats</button>
       </div>
       <div class="hero-art">
-        <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/512/512/Image/Png/noFilter" alt="Mini Cargo game icon" width="512" height="512" loading="eager" />
+        <!-- Interactive cargo truck animation -->
+        <div class="cargo-scene">
+          <img src="https://tr.rbxcdn.com/180DAY-7f8599a20bba39843e6fd7a6c63b916c/512/512/Image/Png/noFilter" alt="Mini Cargo game icon" width="512" height="512" loading="eager" class="game-icon" />
+          <!-- Floating cargo boxes -->
+          <div class="floating-cargo c1" aria-hidden="true">&#128230;</div>
+          <div class="floating-cargo c2" aria-hidden="true">&#128229;</div>
+          <div class="floating-cargo c3" aria-hidden="true">&#128230;</div>
+          <div class="floating-cargo c4" aria-hidden="true">&#129516;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Cargo Loading Mini-Game -->
+    <div class="mini-game-wrapper" id="mini-game">
+      <h3 class="mini-game-title">Try a Mini Game — Sort the Cargo!</h3>
+      <p class="mini-game-desc">Click the boxes to sort them by type. How fast can you clear the dock?</p>
+      <div class="mini-game-board" id="cargo-mini-game">
+        <!-- Boxes populated by JS -->
+      </div>
+      <div class="mini-game-hud">
+        <span class="mg-stat">Time: <span id="mg-time">0</span>s</span>
+        <span class="mg-stat">Sorted: <span id="mg-sorted">0</span>/8</span>
+        <button id="mg-restart" type="button">Restart Game</button>
       </div>
     </div>
   </header>
@@ -75,17 +100,20 @@
   <section id="latest" class="content-section" data-aos="fade-up">
     <h2>&#128640; Latest Update</h2>
     <div class="latest-card">
-      <h3>Version 0.3 &mdash; 2026&#8209;07&#8209;26</h3>
-      <p>The site got a visual overhaul, a real game icon, an interactive Collaborate form, an FAQ accordion, dark mode, and live status straight from the Roblox API.</p>
+      <h3>Version 0.4 &mdash; 2026&#8209;07&#8209;27</h3>
+      <p>Major interactivity upgrade: a cargo-sorting mini-game in the hero, an interactive roadmap with voting, a live notification system, a confetti easter egg, a stats comparison demo (since Roblox API is content-restricted), and a game-style loading screen.</p>
       <button class="details-btn" type="button" aria-expanded="false" aria-controls="latest-details">Show Details</button>
       <div class="details hidden" id="latest-details">
         <ul>
-          <li>Real game icon in hero and nav (replaces the placeholder logo).</li>
-          <li>Live player count badge with one-click refresh.</li>
-          <li>FAQ accordion so newcomers can self-serve.</li>
-          <li>Dark mode toggle persisted to localStorage.</li>
-          <li>Collaborate page posts to GitHub Issues as a real collab request.</li>
-          <li>Removed broken Unsplash placeholders and missing Chart.js dependency.</li>
+          <li>Cargo-sorting mini-game directly on the homepage — click boxes to sort by type.</li>
+          <li>Interactive product roadmap with upvote buttons (stats persisted to localStorage).</li>
+          <li>Notification toast system that shows tips and announcements on a rotation.</li>
+          <li>Konami code easter egg that triggers a cargo confetti party.</li>
+          <li>Scroll progress bar at the top of the page.</li>
+          <li>Floating cargo emojis around the hero image.</li>
+          <li>Stats demo mode: when the Roblox API is content-restricted, shows simulated numbers so the chart still tells a story.</li>
+          <li>Game-style loading screen on first visit for theme consistency.</li>
+          <li>Collaborate form now creates collab-with-game requests (not repo contributions).</li>
         </ul>
       </div>
     </div>
@@ -93,7 +121,11 @@
 
   <!-- Stats – live + Chart.js graph -->
   <section id="stats" class="content-section" data-aos="fade-right">
-    <h2>Live Stats</h2>
+    <h2>Game Stats</h2>
+    <div class="stats-mode-toggle">
+      <button id="stats-mode-live" class="stats-mode-btn active" type="button">Live</button>
+      <button id="stats-mode-demo" class="stats-mode-btn" type="button">Demo</button>
+    </div>
     <div class="stats-grid">
       <div class="stat-item">
         <span class="stat-number" id="stat-players">—</span>
@@ -108,36 +140,64 @@
         <span class="stat-label">Favorites</span>
       </div>
     </div>
+    <div class="stats-note" id="stats-note">
+      <p class="muted" id="stats-note-text">Fetching live data from the Roblox API…</p>
+    </div>
     <div class="chart-card">
       <canvas id="statsChart" aria-label="Monthly active players chart" role="img"></canvas>
     </div>
-    <noscript><p>Enable JavaScript to see the live stats chart.</p></noscript>
+    <noscript><p>Enable JavaScript to see the stats chart.</p></noscript>
   </section>
 
   <!-- Features -->
   <section id="features" class="content-section" data-aos="fade-up">
     <h2>What Makes Mini Cargo</h2>
     <div class="features-grid">
-      <article class="feature">
+      <article class="feature" onclick="this.classList.toggle('expanded')">
         <span class="feature-emoji">&#128666;</span>
         <h3>Founder Pack</h3>
         <p>Drive customisable trucks and skins on the leaderboards.</p>
+        <span class="feature-hint">Click for details</span>
+        <div class="feature-details">
+          Exclusive truck skins, rainbow cargo wraps, and a founder badge on your profile. Available for a limited time.
+        </div>
       </article>
-      <article class="feature">
+      <article class="feature" onclick="this.classList.toggle('expanded')">
         <span class="feature-emoji">&#127942;</span>
         <h3>Daily Challenges</h3>
         <p>Fresh quests every day reward bonus cargo chips to spend.</p>
+        <span class="feature-hint">Click for details</span>
+        <div class="feature-details">
+          3 new challenges reset every 24h: precision delivery, no-damage runs, and speed challenges. Complete all 3 for a bonus crate.
+        </div>
       </article>
-      <article class="feature">
+      <article class="feature" onclick="this.classList.toggle('expanded')">
         <span class="feature-emoji">&#129518;</span>
         <h3>Leaderboards</h3>
         <p>Climb global and friends-only leaderboards for fastest deliveries.</p>
+        <span class="feature-hint">Click for details</span>
+        <div class="feature-details">
+          Weekly and all-time leaderboards. Top 100 players get a Golden Truck badge. Friends leaderboard updates in real time.
+        </div>
       </article>
-      <article class="feature">
+      <article class="feature" onclick="this.classList.toggle('expanded')">
         <span class="feature-emoji">&#128099;</span>
         <h3>Cargo Physics</h3>
         <p>Loose loads shift and fall off — strap it down or lose it.</p>
+        <span class="feature-hint">Click for details</span>
+        <div class="feature-details">
+          Realistic physics simulation: weight distribution matters, cargo slides on slopes, and unsecured loads bounce off on bumps.
+        </div>
       </article>
+    </div>
+  </section>
+
+  <!-- Interactive Roadmap -->
+  <section id="roadmap" class="content-section" data-aos="fade-up">
+    <h2>Game Roadmap — Vote on What's Next</h2>
+    <p class="muted">Click the &#10084; on any roadmap item to vote. Votes are saved on this device so they stick around.</p>
+    <div class="roadmap-list" id="roadmap-list">
+      <!-- Items populated by JS -->
     </div>
   </section>
 
@@ -160,13 +220,17 @@
     <h2>Official Trailer</h2>
     <div class="video-wrapper">
       <iframe id="trailer-frame" title="Mini Cargo Trailer" loading="lazy" allowfullscreen></iframe>
-      <p class="muted">Trailer link is pending author upload.</p>
+      <p class="muted">Trailer link is pending author upload. <button id="notify-trailer" class="link-btn" type="button">Notify me when it's up</button></p>
     </div>
   </section>
 
   <!-- FAQ -->
   <section id="faq" class="content-section" data-aos="fade-up">
     <h2>Frequently Asked Questions</h2>
+    <!-- Search box for FAQ -->
+    <div class="faq-search-wrapper">
+      <input type="text" id="faq-search" placeholder="Search questions…" aria-label="Search FAQ" />
+    </div>
     <div class="faq" id="faq-list">
       <div class="faq-item">
         <button class="faq-q" type="button" aria-expanded="false">Is Mini Cargo free to play? <span class="chev">&#8964;</span></button>
@@ -178,11 +242,26 @@
       </div>
       <div class="faq-item">
         <button class="faq-q" type="button" aria-expanded="false">How do I request a feature or collab? <span class="chev">&#8964;</span></button>
-        <div class="faq-a"><p>The <a href="collaborate.html">Collaborate</a> page sends a request straight to the team via GitHub Issues.</p></div>
+        <div class="faq-a"><p>The <a href="collaborate.html">Collaborate</a> page sends a request straight to the team via GitHub Issues. We welcome level designers, artists, musicians, and game feature ideas.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" type="button" aria-expanded="false">Where do I report bugs? <span class="chev">&#8964;</span></button>
-        <div class="faq-a"><p>Drop a message in the <a href="#discord" target="_self">Discord</a> bug-reports channel or use the Collaborate page.</p></div>
+        <div class="faq-a"><p>Drop a message in the <a href="#discord">Discord</a> bug-reports channel or use the Collaborate page with type "Bug report".</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">How does the cargo physics work? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>Every crate has weight, friction, and center-of-mass. Unsecured cargo slides on slopes and can bounce off on bumps. Use straps to keeps things in place!</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">Is there crossplay? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>Yes! PC, Mac, mobile, and Xbox players all share the same servers. Progress carries over across accounts linked to your Roblox ID.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">What's the Discord invite? <span class="chev">&#8964;</span></button>
+        <div class="faq-a"><p>Join us at <a href="https://discord.com/invite/mini-cargo" target="_blank" rel="noopener">discord.com/invite/mini-cargo</a> for bug reports, sneak peeks, and direct dev communication.</p></div>
+      </div>
+      <div class="faq-no-results hidden" id="faq-no-results">
+        <p class="muted">No matching questions. Try a different search term.</p>
       </div>
     </div>
   </section>
@@ -209,6 +288,12 @@
     </a>
   </section>
   </main>
+
+  <!-- Notification toast -->
+  <div id="toast" class="toast" role="alert" aria-live="polite" hidden>
+    <span id="toast-msg"></span>
+    <button id="toast-close" type="button" aria-label="Dismiss notification">&times;</button>
+  </div>
 
   <footer>
     <p>&copy; 2026 Mini Cargo. Fan site. Roblox is a trademark of Roblox Corporation.</p>
